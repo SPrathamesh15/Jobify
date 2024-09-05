@@ -13,19 +13,16 @@ import { IoClose } from 'react-icons/io5';
 function AdminPanel() {
   const dispatch = useDispatch();
   const auth = useSelector(selectAuth);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Toggle sidebar state
-  const sidebarRef = useRef(null); // Ref for sidebar
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+  const sidebarRef = useRef(null); 
   useEffect(() => {
     dispatch(checkAuthStatus());
   }, [dispatch]);
 
-  // Toggle sidebar visibility for mobile
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Close sidebar when clicked outside
   const handleClickOutside = (event) => {
     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       setIsSidebarOpen(false);
@@ -46,7 +43,7 @@ function AdminPanel() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Hamburger Icon for Mobile */}
+
       <button
         className="absolute top-4 left-4 text-2xl md:hidden"
         onClick={toggleSidebar}
@@ -71,7 +68,7 @@ function AdminPanel() {
                   isActive ? 'bg-gray-600' : 'hover:bg-gray-700'
                 }`
               }
-              onClick={() => setIsSidebarOpen(false)} // Close sidebar on link click
+              onClick={() => setIsSidebarOpen(false)} 
             >
               Post Job
             </NavLink>
@@ -105,7 +102,6 @@ function AdminPanel() {
         </ul>
       </aside>
 
-      {/* Overlay for mobile when sidebar is open */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-0 md:hidden"
@@ -113,7 +109,6 @@ function AdminPanel() {
         ></div>
       )}
 
-      {/* Content Area */}
       <main className="flex-1 p-6 ml-0 md:ml-64">
         <Routes>
           <Route path="jobs-form" element={<JobsForm />} />

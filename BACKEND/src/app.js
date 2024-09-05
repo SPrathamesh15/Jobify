@@ -11,8 +11,9 @@ const applicationRoutes = require('./routes/applicationRoutes');
 
 dotenv.config()
 const app = express();
+const FRONTEND_URL = process.env.FRONTEND_URL
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: `${FRONTEND_URL}`, 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true 
