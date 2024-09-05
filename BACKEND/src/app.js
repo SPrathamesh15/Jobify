@@ -5,14 +5,25 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { connectDB } = require('./config/db');
 
+const userRoutes = require('./routes/userRoutes'); 
+const adminRoutes = require('./routes/adminRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
+
 dotenv.config()
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true 
+}));
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-
-
+app.use('/', userRoutes);
+app.use('/admin', adminRoutes)
+app.use('/', applicationRoutes)
 connectDB().then(() => {
   console.log('Database connected successfully');
 }).catch(err => {

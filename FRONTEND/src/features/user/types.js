@@ -1,0 +1,5 @@
+export const FETCH_JOBS = 'FETCH_JOBS';
+export const APPLY_JOB = 'APPLY_JOB';
+export const JOBS_ERROR = 'JOBS_ERROR';
+export const FETCH_APPLIED_JOBS = 'FETCH_APPLIED_JOBS';
+export const APPLIED_JOBS_ERROR = 'APPLIED_JOBS_ERROR';
