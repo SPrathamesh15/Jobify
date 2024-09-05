@@ -22,7 +22,6 @@ function Login() {
     }
     if (auth.user) {
       toast.success('You have successfully logged in!');
-      console.log('authuser', auth.user)
       if (auth.user.isAdmin) {
         navigate('/admin'); 
       } else {
@@ -30,7 +29,6 @@ function Login() {
       }
     }
   }, [auth.error, auth.user]);
-  console.log('authlogin', auth)
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
