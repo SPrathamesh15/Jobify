@@ -12,12 +12,12 @@ function EditJob() {
   const [formData, setFormData] = useState({
     companyName: '',
     position: '',
-    contract: 'full-time', // Default value
+    contract: 'full-time', 
     location: '',
   });
 
   useEffect(() => {
-    dispatch(fetchJob(jobId)); // Fetch job details
+    dispatch(fetchJob(jobId)); 
   }, [dispatch, jobId]);
 
   useEffect(() => {

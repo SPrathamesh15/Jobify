@@ -58,7 +58,6 @@ export const updateJob = (jobId, updatedData) => async (dispatch) => {
 export const fetchAppliedJobsDetails = () => async (dispatch) => {
   try {
     const response = await axios.get('/admin/applied-jobs');
-    console.log('responsel', response.data)
     dispatch({ type: FETCH_APPLIED_JOBS_DETAILS, payload: response.data });
   } catch (error) {
     dispatch({ type: ADMIN_ERROR, payload: error.response.data.message });
