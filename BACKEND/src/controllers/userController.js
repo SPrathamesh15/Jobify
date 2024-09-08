@@ -191,7 +191,7 @@ const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'none',
-  domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
+  domain: process.env.NODE_ENV === 'production' ? 'jobify-frontend-2e44.onrender.com' : 'localhost',
   path: '/',
   maxAge: 6 * 30 * 24 * 60 * 60 * 1000 // 6 months
 };
