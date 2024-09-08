@@ -12,27 +12,16 @@ function JobsListing() {
   const [search, setSearch] = useState('');
   const [location, setLocation] = useState('');
   const [contract, setContract] = useState('');
-  const [appliedJobs, setAppliedJobs] = useState([]); 
 
   useEffect(() => {
-    // Fetch jobs on component mount
     dispatch(fetchJobs());
-
-    // Retrieve applied jobs from localStorage on component mount
-    const storedAppliedJobs = JSON.parse(localStorage.getItem('appliedJobs')) || [];
-    setAppliedJobs(storedAppliedJobs);
   }, [dispatch]);
 
   const handleApply = (jobId) => {
     dispatch(applyJob(jobId))
       .then(() => {
-        const updatedAppliedJobs = [...appliedJobs, jobId];
-        setAppliedJobs(updatedAppliedJobs);
-
-        // Save applied jobs to localStorage
-        localStorage.setItem('appliedJobs', JSON.stringify(updatedAppliedJobs));
-
         toast.success('Successfully applied for the job!'); 
+        dispatch(fetchJobs());  
       })
       .catch(() => {
         toast.error('Error applying for the job!'); 
@@ -86,14 +75,9 @@ function JobsListing() {
                 <p className="text-gray-800 mt-2">Contract: {job.contract}</p>
                 <button
                   onClick={() => handleApply(job._id)}
-                  disabled={appliedJobs.includes(job._id)} // Disable button if applied
-                  className={`w-full text-white p-2 rounded-md mt-4 transition-colors duration-300 ${
-                    appliedJobs.includes(job._id)
-                      ? 'bg-gray-500 cursor-not-allowed'
-                      : 'bg-green-500 hover:bg-green-600'
-                  }`}
+                  className="w-full text-white p-2 rounded-md mt-4 bg-green-500 hover:bg-green-600 transition-colors duration-300"
                 >
-                  {appliedJobs.includes(job._id) ? 'Applied' : 'Apply'}
+                  Apply
                 </button>
               </div>
             </div>

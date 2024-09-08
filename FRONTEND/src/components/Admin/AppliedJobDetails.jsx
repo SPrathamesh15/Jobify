@@ -7,11 +7,34 @@ function AppliedJobsDetails() {
   const dispatch = useDispatch();
   const appliedJobsDetails = useSelector(selectAppliedJobsDetails);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const jobsPerPage = 12;
 
   useEffect(() => {
-    dispatch(fetchAppliedJobsDetails())
-      .finally(() => setLoading(false));
-  }, [dispatch]);
+    dispatch(fetchAppliedJobsDetails(currentPage, jobsPerPage))
+      .then(({ payload }) => {
+        setTotalPages(Math.ceil(payload.totalApplications / jobsPerPage));
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [dispatch, currentPage, jobsPerPage]);
+
+  const renderPagination = () => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i)}
+          className={`px-4 py-2 border rounded-md mx-1 ${currentPage === i ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}`}
+        >
+          {i}
+        </button>
+      );
+    }
+    return buttons;
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -69,6 +92,11 @@ function AppliedJobsDetails() {
             )}
           </div>
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6">
+        {renderPagination()}
       </div>
     </div>
   );

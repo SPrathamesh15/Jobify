@@ -2,14 +2,19 @@ const Job = require('../models/Job');
 const Application = require('../models/Application');
 
 exports.getAllJobs = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query; 
   try {
-    const jobs = await Job.find();
-    // console.log('jobs', jobs)
-    res.status(200).json(jobs);
+    const jobs = await Job.find()
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+    const totalJobs = await Job.countDocuments();
+
+    res.status(200).json({ jobs, totalJobs });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 exports.getJobById = async (req, res) => {
   try {
@@ -25,10 +30,10 @@ exports.getJobById = async (req, res) => {
 };
 
 exports.createJob = async (req, res) => {
-  const { companyName, position, contract, location } = req.body;
+  const { companyName, position, contract, location, description } = req.body;
 
   try {
-    const newJob = new Job({ companyName, position, contract, location });
+    const newJob = new Job({ companyName, position, contract, location, description });
     await newJob.save();
     res.status(201).json(newJob);
   } catch (error) {
@@ -36,14 +41,15 @@ exports.createJob = async (req, res) => {
   }
 };
 
+
 exports.updateJob = async (req, res) => {
   const { id } = req.params;
-  const { companyName, position, contract, location } = req.body;
+  const { companyName, position, contract, location, description } = req.body;
 
   try {
     const updatedJob = await Job.findByIdAndUpdate(
       id,
-      { companyName, position, contract, location },
+      { companyName, position, contract, location, description },
       { new: true }
     );
     res.status(200).json(updatedJob);
@@ -51,6 +57,7 @@ exports.updateJob = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 exports.deleteJob = async (req, res) => {
   const { id } = req.params;
@@ -63,12 +70,16 @@ exports.deleteJob = async (req, res) => {
 };
 
 exports.getAppliedJobsDetails = async (req, res) => {
-  console.log('helelo')
+  const { page = 1, limit = 12 } = req.query; 
   try {
-    const applications = await Application.find().populate('jobId').populate('userId');
+    const applications = await Application.find()
+      .skip((page - 1) * limit)
+      .limit(Number(limit))
+      .populate('jobId')
+      .populate('userId');
 
+    const totalApplications = await Application.countDocuments();
     const appliedJobsDetails = applications.map(application => ({
-      
       jobId: application.jobId._id,
       companyName: application.jobId.companyName,
       location: application.jobId.location,
@@ -79,9 +90,10 @@ exports.getAppliedJobsDetails = async (req, res) => {
       status: 'Applied'
     }));
 
-    res.json(appliedJobsDetails);
+    res.json({ appliedJobsDetails, totalApplications });
   } catch (error) {
-    console.log('getAppliedJobs error: ',error)
+    console.log('getAppliedJobs error: ', error);
     res.status(500).json({ message: error.message });
   }
 };
+

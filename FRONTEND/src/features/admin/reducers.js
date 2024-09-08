@@ -12,7 +12,9 @@ const initialState = {
   jobs: [],
   job: null, 
   error: null,
+  totalJobs: 0,
   appliedJobsDetails: [],
+  totalApplications: 0, // Add this to keep track of total applications for pagination
 };
 
 export default function adminReducer(state = initialState, action) {
@@ -20,7 +22,8 @@ export default function adminReducer(state = initialState, action) {
     case FETCH_APPLIED_JOBS_DETAILS:
       return {
         ...state,
-        appliedJobsDetails: action.payload,
+        appliedJobsDetails: action.payload.jobs || [],
+        totalApplications: action.payload.totalApplications || 0,
       };
     case POST_JOB:
       return {
@@ -30,7 +33,8 @@ export default function adminReducer(state = initialState, action) {
     case FETCH_JOBS:
       return {
         ...state,
-        jobs: action.payload,
+        jobs: action.payload.jobs || [], 
+        totalJobs: action.payload.totalJobs || 0,
       };
     case FETCH_JOB:
       return {

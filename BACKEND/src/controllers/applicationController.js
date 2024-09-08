@@ -1,10 +1,15 @@
 const Job = require('../models/Job');
 const Application = require('../models/Application');
 
-exports.getAllJobs = async (req, res) => {
+exports.getUnappliedJobs = async (req, res) => {
   try {
-    const jobs = await Job.find();
-    res.json(jobs);
+    const appliedJobs = await Application.find({ userId: req.user.userId }).select('jobId');
+
+    const appliedJobIds = appliedJobs.map(app => app.jobId);
+
+    const unappliedJobs = await Job.find({ _id: { $nin: appliedJobIds } });
+
+    res.json(unappliedJobs);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

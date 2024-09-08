@@ -18,14 +18,20 @@ export const postJob = (jobData) => async (dispatch) => {
   }
 };
 
-export const fetchJobs = () => async (dispatch) => {
+export const fetchJobs = (page = 1, limit = 10) => async (dispatch) => {
   try {
-    const response = await axios.get('/admin/jobs'); 
+    const response = await axios.get('/admin/jobs', {
+      params: {
+        page,
+        limit
+      }
+    });
     dispatch({ type: FETCH_JOBS, payload: response.data });
   } catch (error) {
     dispatch({ type: JOBS_ERROR, payload: error.response?.data?.message || error.message });
   }
 };
+
 
 export const fetchJob = (jobId) => async (dispatch) => {
   try {
@@ -55,9 +61,14 @@ export const updateJob = (jobId, updatedData) => async (dispatch) => {
 };
 
 
-export const fetchAppliedJobsDetails = () => async (dispatch) => {
+export const fetchAppliedJobsDetails = (page = 1, limit = 12) => async (dispatch) => {
   try {
-    const response = await axios.get('/admin/applied-jobs');
+    const response = await axios.get('/admin/applied-jobs', {
+      params: {
+        page,
+        limit
+      }
+    });
     dispatch({ type: FETCH_APPLIED_JOBS_DETAILS, payload: response.data });
   } catch (error) {
     dispatch({ type: ADMIN_ERROR, payload: error.response.data.message });

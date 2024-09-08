@@ -14,6 +14,7 @@ function EditJob() {
     position: '',
     contract: 'full-time', 
     location: '',
+    description: '',  // Add description field
   });
 
   useEffect(() => {
@@ -27,6 +28,7 @@ function EditJob() {
         position: job.position,
         contract: job.contract,
         location: job.location,
+        description: job.description || '',  // Initialize description
       });
     }
   }, [job]);
@@ -45,6 +47,7 @@ function EditJob() {
       navigate('/admin/jobs-listing'); 
     });
   };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 p-6">
@@ -94,6 +97,16 @@ function EditJob() {
             onChange={handleChange}
             className="w-full p-2 border rounded"
             required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-2">Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            rows="4"
           />
         </div>
         <button

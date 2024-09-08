@@ -1,9 +1,9 @@
 import { FETCH_JOBS, JOBS_ERROR, APPLY_JOB, FETCH_APPLIED_JOBS, APPLIED_JOBS_ERROR } from './types';
 
 const initialState = {
-  jobs: [], // Store fetched jobs here
+  jobs: [], 
   error: null,
-  appliedJobs: [], // Store applied job ids here
+  appliedJobs: [], 
 };
 
 const userjobsReducer = (state = initialState, action) => {
@@ -11,17 +11,17 @@ const userjobsReducer = (state = initialState, action) => {
     case FETCH_JOBS:
       return {
         ...state,
-        jobs: action.payload, // Update state with the fetched jobs
+        jobs: action.payload, 
       };
     case APPLY_JOB:
       return {
         ...state,
-        appliedJobs: [...state.appliedJobs, action.payload], // Add applied job ID
+        appliedJobs: [...state.appliedJobs, action.payload], 
       };
     case JOBS_ERROR:
       return {
         ...state,
-        error: action.payload, // Store error messages
+        error: action.payload,
       };
       case FETCH_APPLIED_JOBS:
       return {

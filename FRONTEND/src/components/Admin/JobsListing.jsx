@@ -7,15 +7,17 @@ import { useNavigate } from 'react-router-dom';
 function JobsListing() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const jobs = useSelector((state) => state.admin.jobs || []);
+  const { jobs = [], totalJobs = 0 } = useSelector((state) => state.admin);
   const error = useSelector((state) => state.admin.error);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [jobsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(fetchJobs());
-  }, [dispatch]);
+    dispatch(fetchJobs(currentPage, jobsPerPage));
+  }, [dispatch, currentPage, jobsPerPage]);
 
   const handleDelete = (jobId) => {
     setSelectedJobId(jobId);
@@ -25,7 +27,7 @@ function JobsListing() {
   const handleConfirmDelete = () => {
     if (selectedJobId) {
       dispatch(deleteJob(selectedJobId)).then(() => {
-        dispatch(fetchJobs());
+        dispatch(fetchJobs(currentPage, jobsPerPage));
         setIsModalOpen(false);
       });
     }
@@ -37,6 +39,35 @@ function JobsListing() {
 
   const handleEdit = (jobId) => {
     navigate(`/admin/jobs/edit/${jobId}`);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPages = Math.ceil(totalJobs / jobsPerPage);
+
+  const truncateDescription = (text, length = 30) => {
+    if (text.length <= length) return text;
+    return `${text.slice(0, length)}...`;
+  };
+
+  const renderPagination = () => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      if (i <= 10 || (i >= totalPages - 4 && i <= totalPages)) {
+        buttons.push(
+          <button
+            key={i}
+            onClick={() => handlePageChange(i)}
+            className={`px-4 py-2 border rounded-md mx-1 ${currentPage === i ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}`}
+          >
+            {i}
+          </button>
+        );
+      }
+    }
+    return buttons;
   };
 
   return (
@@ -51,13 +82,14 @@ function JobsListing() {
               <th className="p-4 border-b">Position</th>
               <th className="p-4 border-b">Contract</th>
               <th className="p-4 border-b">Location</th>
+              <th className="p-4 border-b">Description</th>
               <th className="p-4 border-b text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {jobs.length === 0 ? (
               <tr>
-                <td colSpan="5" className="p-4 text-center text-gray-500">No jobs available</td>
+                <td colSpan="6" className="p-4 text-center text-gray-500">No jobs available</td>
               </tr>
             ) : (
               jobs.map((job) => (
@@ -66,6 +98,7 @@ function JobsListing() {
                   <td className="p-4 border-b">{job.position}</td>
                   <td className="p-4 border-b">{job.contract}</td>
                   <td className="p-4 border-b">{job.location}</td>
+                  <td className="p-4 border-b">{truncateDescription(job.description, 30)}</td>
                   <td className="p-4 border-b flex justify-center space-x-2">
                     <button
                       onClick={() => handleEdit(job._id)}
@@ -87,6 +120,11 @@ function JobsListing() {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-6">
+        {renderPagination()}
       </div>
 
       {/* Modal */}

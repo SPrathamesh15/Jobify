@@ -9,6 +9,7 @@ function JobsForm() {
     position: '',
     contract: '',
     location: '',
+    description: '', // Added description field
   });
 
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function JobsForm() {
     e.preventDefault();
     try {
       await dispatch(postJob(form));
-      setForm({ companyName: '', position: '', contract: '', location: '' }); // Reset form
+      setForm({ companyName: '', position: '', contract: '', location: '', description: '' }); // Reset form
       toast.success('Job posted successfully!');
     } catch (error) {
       toast.error('Failed to post job. Please try again.');
@@ -32,6 +33,7 @@ function JobsForm() {
     <div className="flex flex-col min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Post a New Job</h1>
       <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded-lg">
+        {/* Other input fields */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2">Company Name</label>
           <input
@@ -79,6 +81,21 @@ function JobsForm() {
             className="p-2 border rounded-md w-full"
           />
         </div>
+
+        {/* Description Field */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Description</label>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            required
+            className="p-2 border rounded-md w-full"
+            rows="4"
+            placeholder="Enter job description"
+          />
+        </div>
+
         <button
           type="submit"
           className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-colors duration-300"
