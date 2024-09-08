@@ -187,15 +187,20 @@ exports.login = async (req, res) => {
       { expiresIn: '180d' } 
     );
 
-    res.cookie('authToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
-      path: '/',
-      maxAge: 6 * 30 * 24 * 60 * 60 * 1000
-    });
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'none',
+  domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
+  path: '/',
+  maxAge: 6 * 30 * 24 * 60 * 60 * 1000 // 6 months
+};
+
+console.log('Cookie Options:', cookieOptions);
+
+res.cookie('authToken', token, cookieOptions);
     console.log('domain', process.env.FRONTEND_URL)
+    
     res.status(200).json({
       message: "Login successful",
       user: {
