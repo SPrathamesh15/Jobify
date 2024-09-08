@@ -147,6 +147,8 @@ exports.verifyOtpAndSignup = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
+      domain: process.env.FRONTEND_URL,
+      path: '/',
       maxAge: 6 * 30 * 24 * 60 * 60 * 1000, // 6 months
     });
 
@@ -189,7 +191,7 @@ exports.login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      domain: 'localhost',
+      domain: process.env.FRONTEND_URL,
       path: '/',
       maxAge: 6 * 30 * 24 * 60 * 60 * 1000
     });
