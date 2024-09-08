@@ -146,7 +146,7 @@ exports.verifyOtpAndSignup = async (req, res) => {
     res.cookie('authToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
       path: '/',
       maxAge: 6 * 30 * 24 * 60 * 60 * 1000, // 6 months
@@ -190,7 +190,7 @@ exports.login = async (req, res) => {
     res.cookie('authToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'none',
       domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
       path: '/',
       maxAge: 6 * 30 * 24 * 60 * 60 * 1000
