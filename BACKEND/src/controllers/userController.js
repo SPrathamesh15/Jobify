@@ -147,7 +147,7 @@ exports.verifyOtpAndSignup = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
+      domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
       path: '/',
       maxAge: 6 * 30 * 24 * 60 * 60 * 1000, // 6 months
     });
@@ -191,7 +191,7 @@ exports.login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : 'localhost',
+      domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
       path: '/',
       maxAge: 6 * 30 * 24 * 60 * 60 * 1000
     });
