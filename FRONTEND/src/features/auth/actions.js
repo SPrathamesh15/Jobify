@@ -9,6 +9,7 @@ export const sendOtp = (email) => async (dispatch) => {
     dispatch({ type: REGISTER_FAIL, payload: error.response.data.message });
   }
 };
+
 export const resendOtp = (email) => async (dispatch) => {
   try {
     await axios.post('/resend-otp', { email });
@@ -17,9 +18,12 @@ export const resendOtp = (email) => async (dispatch) => {
     dispatch({ type: REGISTER_FAIL, payload: error.response.data.message });
   }
 };
+
 export const verifyOtpAndSignup = (formData) => async (dispatch) => {
   try {
     const response = await axios.post('/verify-otp-and-signup', formData);
+    const token = response.data.token;
+    localStorage.setItem('authToken', token);
     dispatch({ type: REGISTER_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: REGISTER_FAIL, payload: error.response.data.message });
@@ -29,15 +33,32 @@ export const verifyOtpAndSignup = (formData) => async (dispatch) => {
 export const login = (credentials) => async (dispatch) => {
   try {
     const response = await axios.post('/login', credentials);
+    const token = response.data.token;
+    localStorage.setItem('authToken', token);
+
     dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
+    dispatch({ type: LOGIN_FAIL, payload: error.response?.data?.message || 'Login failed' });
   }
 };
 
 export const checkAuthStatus = () => async (dispatch) => {
   try {
-    const response = await axios.get('/auth-status');
+    const token = localStorage.getItem('authToken');
+
+    if (!token) {
+      dispatch({ type: LOGIN_FAIL, payload: 'Not authenticated' });
+      return;
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await axios.get('/auth-status', config);
+
     dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: 'Not authenticated' });

@@ -143,17 +143,18 @@ exports.verifyOtpAndSignup = async (req, res) => {
       { expiresIn: '180d' }
     );
 
-    res.cookie('authToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
-      domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
-      path: '/',
-      maxAge: 6 * 30 * 24 * 60 * 60 * 1000, // 6 months
-    });
+    // res.cookie('authToken', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'none',
+    //   domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
+    //   path: '/',
+    //   maxAge: 6 * 30 * 24 * 60 * 60 * 1000, // 6 months
+    // });
 
     res.status(201).json({
       message: "You've successfully registered!",
+      token,
       user: {
         email: newUser.email,
         fullName: newUser.fullName,
@@ -187,28 +188,25 @@ exports.login = async (req, res) => {
       { expiresIn: '180d' } 
     );
 
-const cookieOptions = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'none',
-  domain: process.env.NODE_ENV === 'production' ? 'jobify-frontend-2e44.onrender.com' : 'localhost',
-  path: '/',
-  maxAge: 6 * 30 * 24 * 60 * 60 * 1000 // 6 months
-};
-
-console.log('Cookie Options:', cookieOptions);
-
-res.cookie('authToken', token, cookieOptions);
+    // res.cookie('authToken', token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'none',
+    //   domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : 'localhost',
+    //   path: '/',
+    //   maxAge: 6 * 30 * 24 * 60 * 60 * 1000
+    // });
     console.log('domain', process.env.FRONTEND_URL)
     
     res.status(200).json({
       message: "Login successful",
+      token,
       user: {
         userId: user._id,
         email: user.email,
         fullName: user.fullName,
         phoneNumber: user.phone,
-        isAdmin: user.isAdmin, // Include role in the response
+        isAdmin: user.isAdmin, 
       },
     });
   } catch (error) {
