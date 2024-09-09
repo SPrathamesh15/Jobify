@@ -17,6 +17,7 @@ function UserPanel() {
   const [showGreeting, setShowGreeting] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   const sidebarRef = useRef(null); 
+
   useEffect(() => {
     dispatch(checkAuthStatus());
   }, [dispatch]);
@@ -54,10 +55,10 @@ function UserPanel() {
   }, [isSidebarOpen]);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-white">
 
       <button
-        className="absolute top-4 left-4 text-2xl md:hidden"
+        className="absolute top-4 left-4 text-2xl text-gray-800 md:hidden"
         onClick={toggleSidebar}
       >
         {isSidebarOpen ? <IoClose /> : <FiMenu />}
@@ -65,18 +66,18 @@ function UserPanel() {
 
       <aside
         ref={sidebarRef}
-        className={`w-64 bg-gray-800 text-white p-6 h-full fixed z-10 transform md:translate-x-0 ${
+        className={`w-64 bg-gray-100 text-gray-900 p-6 h-full fixed z-10 transform md:translate-x-0 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300 ease-in-out md:h-screen`}
+        } transition-transform duration-300 ease-in-out md:h-screen border-r border-gray-200`}
       >
-        <h1 className="text-2xl font-bold mb-6">User Panel</h1>
-        <ul>
+        <h1 className="text-3xl font-bold mb-8">Dashboard</h1>
+        <ul className="space-y-4">
           <li>
             <NavLink
               to="job-listings"
               className={({ isActive }) =>
-                `block w-full text-left p-2 rounded-md ${
-                  isActive ? 'bg-gray-600' : 'hover:bg-gray-700'
+                `block w-full text-left p-3 rounded-lg transition ${
+                  isActive ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'
                 }`
               }
               onClick={() => setIsSidebarOpen(false)}
@@ -88,8 +89,8 @@ function UserPanel() {
             <NavLink
               to="applied-jobs"
               className={({ isActive }) =>
-                `block w-full text-left p-2 rounded-md ${
-                  isActive ? 'bg-gray-600' : 'hover:bg-gray-700'
+                `block w-full text-left p-3 rounded-lg transition ${
+                  isActive ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'
                 }`
               }
               onClick={() => setIsSidebarOpen(false)}
@@ -107,11 +108,11 @@ function UserPanel() {
         ></div>
       )}
 
-      <main className="flex-1 p-6 ml-0 md:ml-64">
+      <main className="flex-1 p-8 ml-0 md:ml-64 bg-gray-50">
         {showGreeting && (
-          <div className="bg-blue-500 text-white p-4 mb-6 rounded-md">
+          <div className="bg-blue-100 text-blue-800 p-4 mb-6 rounded-lg shadow-sm">
             <h2 className="text-xl font-bold">
-              Hello, {auth.user?.fullName || 'User'}! Welcome to your panel.
+              Hello, {auth.user?.fullName || 'User'}! Welcome back to your panel.
             </h2>
           </div>
         )}

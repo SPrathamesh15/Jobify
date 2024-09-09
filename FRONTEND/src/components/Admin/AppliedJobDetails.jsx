@@ -10,7 +10,7 @@ function AppliedJobsDetails() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const jobsPerPage = 12;
-  console.log("afer", appliedJobsDetails)
+
   useEffect(() => {
     dispatch(fetchAppliedJobsDetails(currentPage, jobsPerPage))
       .then(({ payload }) => {
@@ -27,7 +27,9 @@ function AppliedJobsDetails() {
         <button
           key={i}
           onClick={() => setCurrentPage(i)}
-          className={`px-4 py-2 border rounded-md mx-1 ${currentPage === i ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}`}
+          className={`px-4 py-2 border rounded-md mx-1 ${
+            currentPage === i ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+          } transition-all duration-300 ease-in-out hover:bg-blue-500 hover:text-white`}
         >
           {i}
         </button>
@@ -37,14 +39,14 @@ function AppliedJobsDetails() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Header Section */}
-      <div className="bg-white shadow-md py-6 px-8 mb-6">
-        <h1 className="text-4xl font-bold text-gray-800">Applied Jobs Details</h1>
-        <p className="text-gray-600 mt-2">Track your job applications and their statuses</p>
+      <div className="bg-white shadow-md py-6 px-8 mb-6 border-b border-gray-200">
+        <h1 className="text-4xl font-bold text-gray-900">Applied Jobs Details</h1>
+        <p className="text-gray-600 mt-2">Track job applications and statuses</p>
       </div>
 
-      {/* Content */}
+      {/* Content Section */}
       <div className="p-6">
         {loading ? (
           <div className="flex justify-center items-center min-h-[200px]">

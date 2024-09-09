@@ -251,12 +251,12 @@ function Signup() {
 
             <button
               type="submit"
-              className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-colors duration-300">
+              className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition-colors duration-300">
               {isSendingOtp ? 'Sending OTP...' : showOtpInput ? 'Verify OTP & Signup' : 'Send OTP'}
             </button>
           </form>
           <p className="text-center text-gray-600 mt-4">
-            Already have an account? <a onClick={() => navigate('/login')} className="text-teal-500 font-bold hover:underline cursor-pointer">Login here</a>
+            Already have an account? <a onClick={() => navigate('/login')} className="text-blue-500 font-bold hover:underline cursor-pointer">Login here</a>
           </p>
         </div>
       </div>

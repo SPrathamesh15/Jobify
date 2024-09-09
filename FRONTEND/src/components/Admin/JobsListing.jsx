@@ -60,7 +60,7 @@ function JobsListing() {
           <button
             key={i}
             onClick={() => handlePageChange(i)}
-            className={`px-4 py-2 border rounded-md mx-1 ${currentPage === i ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}`}
+            className={`px-4 py-2 rounded-full mx-1 ${currentPage === i ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 border border-gray-200'}`}
           >
             {i}
           </button>
@@ -71,45 +71,47 @@ function JobsListing() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 p-8">
-      <h1 className="text-4xl font-extrabold text-gray-900 mb-6">Job Listings</h1>
+    <div className="flex flex-col min-h-screen bg-gray-100 p-8">
+      <h1 className="text-4xl font-light text-gray-900 mb-8">Job Listings</h1>
       {error && <p className="text-red-600 mb-6 text-lg font-medium">{error}</p>}
-      <div className="overflow-x-auto">
-        <table className="w-full bg-white shadow-lg rounded-lg border border-gray-200">
-          <thead className="bg-gray-100 text-gray-600 uppercase text-sm">
+
+      {/* Table */}
+      <div className="overflow-x-auto rounded-3xl bg-white shadow-md">
+        <table className="w-full bg-white text-left border-separate" style={{ borderSpacing: '0 10px' }}>
+          <thead className="text-gray-600 text-sm font-light">
             <tr>
-              <th className="p-4 border-b">Company Name</th>
-              <th className="p-4 border-b">Position</th>
-              <th className="p-4 border-b">Contract</th>
-              <th className="p-4 border-b">Location</th>
-              <th className="p-4 border-b">Description</th>
-              <th className="p-4 border-b text-center">Actions</th>
+              <th className="py-4 px-6">Company</th>
+              <th className="py-4 px-6">Position</th>
+              <th className="py-4 px-6">Contract</th>
+              <th className="py-4 px-6">Location</th>
+              <th className="py-4 px-6">Description</th>
+              <th className="py-4 px-6 text-center">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-gray-800 text-sm">
             {jobs.length === 0 ? (
               <tr>
-                <td colSpan="6" className="p-4 text-center text-gray-500">No jobs available</td>
+                <td colSpan="6" className="text-center py-6 text-gray-500">No jobs available</td>
               </tr>
             ) : (
               jobs.map((job) => (
-                <tr key={job._id} className="hover:bg-gray-50">
-                  <td className="p-4 border-b">{job.companyName}</td>
-                  <td className="p-4 border-b">{job.position}</td>
-                  <td className="p-4 border-b">{job.contract}</td>
-                  <td className="p-4 border-b">{job.location}</td>
-                  <td className="p-4 border-b">{truncateDescription(job.description, 30)}</td>
-                  <td className="p-4 border-b flex justify-center space-x-2">
+                <tr key={job._id} className="bg-gray-50 rounded-lg hover:bg-gray-100">
+                  <td className="py-4 px-6">{job.companyName}</td>
+                  <td className="py-4 px-6">{job.position}</td>
+                  <td className="py-4 px-6">{job.contract}</td>
+                  <td className="py-4 px-6">{job.location}</td>
+                  <td className="py-4 px-6">{truncateDescription(job.description)}</td>
+                  <td className="py-4 px-6 flex justify-center space-x-4">
                     <button
                       onClick={() => handleEdit(job._id)}
-                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
+                      className="px-3 py-2 rounded-full bg-blue-50 text-blue-500 hover:bg-blue-100 shadow-md flex items-center"
                     >
                       <FaEdit className="mr-2" />
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(job._id)}
-                      className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 flex items-center"
+                      className="px-3 py-2 rounded-full bg-red-50 text-red-500 hover:bg-red-100 shadow-md flex items-center"
                     >
                       <FaTrashAlt className="mr-2" />
                       Delete
@@ -123,26 +125,26 @@ function JobsListing() {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-8">
         {renderPagination()}
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center transform transition-transform duration-300 ease-in-out max-w-sm mx-auto">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Confirm Deletion</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-xl shadow-lg max-w-lg mx-auto">
+            <h2 className="text-xl font-semibold mb-4">Confirm Deletion</h2>
             <p className="text-gray-700 mb-6">Are you sure you want to delete this job? This action cannot be undone.</p>
             <div className="flex justify-center space-x-4">
               <button
                 onClick={handleConfirmDelete}
-                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-transform duration-200"
+                className="bg-red-500 text-white px-6 py-2 rounded-full hover:bg-red-600"
               >
                 Delete
               </button>
               <button
                 onClick={handleCloseModal}
-                className="bg-gray-300 text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-400 transition-transform duration-200"
+                className="bg-gray-300 text-gray-800 px-6 py-2 rounded-full hover:bg-gray-400"
               >
                 Cancel
               </button>

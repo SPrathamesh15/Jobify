@@ -85,12 +85,12 @@ function Login() {
 
             <button
               type="submit"
-              className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition-colors duration-300">
+              className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition-colors duration-300">
               Login
             </button>
           </form>
           <p className="text-center text-gray-600 mt-4">
-            Don't have an account? <a onClick={() => navigate('/signup')}  className="text-teal-500 font-bold hover:underline cursor-pointer">Sign up here</a>
+            Don't have an account? <a onClick={() => navigate('/signup')}  className="text-blue-500 font-bold hover:underline cursor-pointer">Sign up here</a>
           </p>
         </div>
       </div>

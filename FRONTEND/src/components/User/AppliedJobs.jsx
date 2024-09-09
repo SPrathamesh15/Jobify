@@ -13,24 +13,24 @@ const AppliedJobs = () => {
     dispatch(fetchAppliedJobs());
   }, [dispatch]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <p className="text-center text-gray-500">Loading...</p>;
+  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Applied Jobs</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex flex-col min-h-screen bg-white text-gray-900 p-8">
+      <h1 className="text-4xl font-semibold mb-10 text-center">Your Applied Jobs</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {appliedJobs.length === 0 ? (
-          <p className="text-gray-600">No jobs applied</p>
+          <p className="text-center text-gray-500">No jobs applied yet.</p>
         ) : (
           appliedJobs.map((job) => (
-            <div key={job.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-              <div className="p-4">
-                <h2 className="text-xl font-semibold">{job.companyName}</h2>
-                <p className="text-gray-600">{job.location}</p>
-                <p className="text-gray-800 mt-2">Contract: {job.contract}</p>
-                <p className="text-gray-800 mt-2">Status: <span className='text-blue-500 font-bold'>{job.status}</span></p>
-              </div>
+            <div key={job.id} className="bg-gray-50 rounded-2xl shadow-lg hover:shadow-xl transition-shadow p-6">
+              <h2 className="text-xl font-medium mb-2 text-gray-900">{job.companyName}</h2>
+              <p className="text-gray-500 mb-2">{job.location}</p>
+              <p className="text-gray-700 mb-2">Contract: {job.contract}</p>
+              <p className="text-gray-700 mb-2">
+                Status: <span className="text-blue-600 font-semibold">{job.status}</span>
+              </p>
             </div>
           ))
         )}
