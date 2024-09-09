@@ -10,7 +10,7 @@ function AppliedJobsDetails() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const jobsPerPage = 12;
-
+  console.log("afer", appliedJobsDetails)
   useEffect(() => {
     dispatch(fetchAppliedJobsDetails(currentPage, jobsPerPage))
       .then(({ payload }) => {

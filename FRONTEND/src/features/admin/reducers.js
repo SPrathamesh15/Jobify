@@ -22,7 +22,7 @@ export default function adminReducer(state = initialState, action) {
     case FETCH_APPLIED_JOBS_DETAILS:
       return {
         ...state,
-        appliedJobsDetails: action.payload.jobs || [],
+        appliedJobsDetails: action.payload.appliedJobsDetails || [],
         totalApplications: action.payload.totalApplications || 0,
       };
     case POST_JOB:

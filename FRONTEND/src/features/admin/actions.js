@@ -69,6 +69,7 @@ export const fetchAppliedJobsDetails = (page = 1, limit = 12) => async (dispatch
         limit
       }
     });
+    console.log('response', response)
     dispatch({ type: FETCH_APPLIED_JOBS_DETAILS, payload: response.data });
   } catch (error) {
     dispatch({ type: ADMIN_ERROR, payload: error.response.data.message });
